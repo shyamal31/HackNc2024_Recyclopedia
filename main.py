@@ -15,7 +15,8 @@ def upload_images():
     file = request.files['file']
     if file.filename == "":
         return jsonify({'error':'no file selected'}),400
-    
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
     filename = secure_filename(file.filename)
     file_path = os.path.join(UPLOAD_FOLDER, filename)
     file.save(file_path)
@@ -187,5 +188,6 @@ def run():
     new_response = json.dumps(new_response)
     os.remove(image_path)
     return new_response
+
  
 
